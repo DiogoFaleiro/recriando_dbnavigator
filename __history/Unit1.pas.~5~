@@ -1,0 +1,84 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL,
+  FireDAC.Phys.MySQLDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.StdCtrls, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TForm1 = class(TForm)
+    Conexao: TFDConnection;
+    tbUsuarios: TFDTable;
+    dsUsuarios: TDataSource;
+    btPrimeiro: TButton;
+    btGravar: TButton;
+    btDeletar: TButton;
+    btInserir: TButton;
+    Button5: TButton;
+    btUltimo: TButton;
+    btProximo: TButton;
+    btAnterior: TButton;
+    btCancelar: TButton;
+    Button10: TButton;
+    DBNavigator1: TDBNavigator;
+    DBGrid1: TDBGrid;
+    procedure Button5Click(Sender: TObject);
+    procedure Button10Click(Sender: TObject);
+    procedure tbUsuariosAfterScroll(DataSet: TDataSet);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button10Click(Sender: TObject);
+begin
+  tbUsuarios.Close;
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+begin
+  tbUsuarios.Open;
+end;
+
+procedure TForm1.tbUsuariosAfterScroll(DataSet: TDataSet);
+begin
+  if tbUsuarios.Eof = true then
+    begin
+      btProximo.Enabled := false;
+      btUltimo.Enabled := false;
+    end
+  else
+     begin
+       btProximo.Enabled := true;
+       btUltimo.Enabled := true;
+     end;
+
+   if tbUsuarios.Bof = true then
+     begin
+       btPrimeiro.Enabled := false;
+       btAnterior.Enabled := false;
+     end
+   else
+     begin
+       btPrimeiro.Enabled := true;
+       btAnterior.Enabled := true;
+     end;
+
+end;
+
+end.
